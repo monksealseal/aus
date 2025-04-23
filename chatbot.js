@@ -41,7 +41,10 @@ function initChatbot() {
     }
 
     // Add welcome message
-    addChatbotMessage('Assistant', 'Hello Sophie! 👋 I\'m your dashboard assistant. I can help you explore Australian flood risk data for your ESG presentation. Try asking me to "show rainfall data", "run a demo", or say "help" for more options.');
+    addChatbotMessage('Assistant', 'Welcome! 👋 I\'m your dashboard assistant. I can help you explore Australian flood risk data for ESG analysis and risk assessment. Try asking me to "show rainfall data", "run a demo", or say "help" for more options.');
+    
+    // Add custom sales information button
+    addChatbotMessage('Assistant', 'I can guide you through specific features based on your interests. What aspects of flood risk assessment or ESG reporting are you most interested in? You can also [action:run sales demo] or [action:ask about pricing].');
     
     // Auto-open after a short delay for the demo
     setTimeout(() => {
@@ -195,17 +198,56 @@ function processChatbotMessage(message) {
     // Convert to lowercase for easier matching
     const lowerMessage = message.toLowerCase();
     
+    // Store user interest for personalized recommendations
+    if (!window.userInterests) window.userInterests = [];
+    
+    // Capture industry interests
+    const industries = ['insurance', 'banking', 'property', 'asset management', 'infrastructure', 'real estate', 'agriculture'];
+    industries.forEach(industry => {
+        if (lowerMessage.includes(industry) && !window.userInterests.includes(industry)) {
+            window.userInterests.push(industry);
+            console.log('User interest detected:', industry);
+        }
+    });
+    
+    // Capture feature interests
+    const features = ['climate', 'esg', 'risk', 'reporting', 'analytics', 'prediction', 'compliance', 'disclosure', 'tcfd'];
+    features.forEach(feature => {
+        if (lowerMessage.includes(feature) && !window.userInterests.includes(feature)) {
+            window.userInterests.push(feature);
+            console.log('User interest detected:', feature);
+        }
+    });
+    
     // Simulate thinking
     setTimeout(() => {
-        // Demo mode for the meeting with Sophie
+        // Sales demo mode
+        if (lowerMessage.includes('run sales demo') || lowerMessage.includes('sales demo')) {
+            runSalesDemo();
+            return;
+        }
+        
+        // Standard demo mode
         if (lowerMessage.includes('demo') || lowerMessage.includes('presentation') || lowerMessage.includes('showcase')) {
             runChatbotDemo();
+            return;
+        }
+        
+        // Pricing information
+        if (lowerMessage.includes('pricing') || lowerMessage.includes('cost') || lowerMessage.includes('subscription') || lowerMessage.includes('price')) {
+            showPricingInfo();
             return;
         }
         
         // Help commands
         if (lowerMessage === 'help' || lowerMessage.includes('what can you do')) {
             showChatbotHelp();
+            return;
+        }
+        
+        // Contact information request
+        if (lowerMessage.includes('contact') || lowerMessage.includes('email') || lowerMessage.includes('phone') || lowerMessage.includes('call')) {
+            showContactInfo();
             return;
         }
         
@@ -351,9 +393,126 @@ function processChatbotMessage(message) {
             }
         }
         
+        // Lead capture
+        if (lowerMessage.includes('interested') || lowerMessage.includes('more information') || lowerMessage.includes('details') || lowerMessage.includes('follow up')) {
+            captureLeadInfo(message);
+            return;
+        }
+        
+        // Provide a custom response based on detected interests
+        if (window.userInterests && window.userInterests.length > 0) {
+            const response = generatePersonalizedResponse(message, window.userInterests);
+            if (response) {
+                addChatbotMessage('Assistant', response);
+                return;
+            }
+        }
+        
         // Fallback response
-        addChatbotMessage('Assistant', 'I\'m not sure how to do that yet. Try "help" to see what I can do.');
+        addChatbotMessage('Assistant', 'I\'m not sure how to do that yet. Try "help" to see what I can do, or tell me what aspect of flood risk or ESG reporting interests you most.');
     }, 500);
+}
+
+// Generate personalized responses based on user interests
+function generatePersonalizedResponse(message, interests) {
+    const lowerMessage = message.toLowerCase();
+    
+    // If message asks about their specific industry
+    for (const interest of interests) {
+        if (lowerMessage.includes(interest)) {
+            switch(interest) {
+                case 'insurance':
+                    return `For insurance professionals, our dashboard provides critical flood risk assessments that can improve underwriting accuracy by up to 30%. Would you like to see our [action:insurance demo] focused on risk modeling?`;
+                
+                case 'banking':
+                    return `Our banking clients leverage this dashboard for TCFD compliance and physical risk assessment in lending portfolios. Would you like to see how our [action:portfolio risk assessment] works?`;
+                
+                case 'property':
+                case 'real estate':
+                    return `For property and real estate professionals, we offer location-specific risk scoring that incorporates both historical data and future climate scenarios. Would you like me to [action:show property risk demo]?`;
+                
+                case 'agriculture':
+                    return `Our agricultural users benefit from seasonal flood forecasting and long-term climate trend analysis. I can [action:show agriculture features] if you're interested.`;
+                
+                case 'esg':
+                case 'reporting':
+                case 'disclosure':
+                case 'tcfd':
+                    return `Our ESG reporting tools automate data collection for climate-related disclosures, saving hundreds of hours of manual work. Would you like to see our [action:ESG reporting templates]?`;
+                
+                case 'prediction':
+                case 'analytics':
+                    return `Our predictive analytics combine historical flood data with climate models to project future risk scenarios. I can [action:demonstrate predictive features] if you'd like.`;
+            }
+        }
+    }
+    
+    return null; // No personalized response generated
+}
+
+// Show pricing information
+function showPricingInfo() {
+    const pricingMessage = `
+        <strong>Pricing Options:</strong>
+        
+        We offer flexible subscription plans based on your organization's needs:
+        
+        <strong>Basic:</strong> $499/month
+        • Essential flood risk data
+        • Historical event analysis
+        • Standard ESG reporting templates
+        
+        <strong>Professional:</strong> $999/month
+        • Advanced risk modeling
+        • Custom reporting
+        • API access
+        • Unlimited users
+        
+        <strong>Enterprise:</strong> Custom pricing
+        • Full data integration
+        • Dedicated support
+        • Customized dashboards
+        • On-premise deployment option
+        
+        Would you like me to [action:arrange a consultation] to discuss which plan would best suit your needs?
+    `;
+    
+    addChatbotMessage('Assistant', pricingMessage);
+}
+
+// Show contact information
+function showContactInfo() {
+    const contactMessage = `
+        <strong>Contact Information:</strong>
+        
+        Email: sales@floodrisk-dashboard.com
+        Phone: +61 2 5550 1234
+        
+        Or fill out your information below and our team will contact you:
+        
+        <div class="contact-form">
+            <input type="text" id="contact-name" placeholder="Your Name" class="contact-input">
+            <input type="email" id="contact-email" placeholder="Your Email" class="contact-input">
+            <input type="text" id="contact-company" placeholder="Company" class="contact-input">
+            <button onclick="submitContactForm()" class="contact-submit">Submit</button>
+        </div>
+    `;
+    
+    addChatbotMessage('Assistant', contactMessage);
+}
+
+// Capture lead information
+function captureLeadInfo(message) {
+    addChatbotMessage('Assistant', `Thank you for your interest! To better assist you, could you please provide:
+    
+    1. Your name
+    2. Company name
+    3. Email address
+    
+    This will help us tailor a demonstration specifically for your needs.`);
+    
+    // Set a flag to capture the next message as lead info
+    window.capturingLeadInfo = true;
 }
 
 // Show help message with available commands
@@ -749,7 +908,7 @@ function loadDemoData() {
 
 // Run a demo scenario for the meeting with Sophie
 function runChatbotDemo() {
-    addChatbotMessage('Assistant', '🌟 **Starting ESG & Flood Risk Dashboard Demo** 🌟\n\nI\'ll walk you through the key features of this dashboard we\'ve created for your ESG presentations, Sophie.\n\nLoading visualization data... please wait a moment.');
+    addChatbotMessage('Assistant', '🌟 **Starting ESG & Flood Risk Dashboard Demo** 🌟\n\nI\'ll walk you through the key features of this dashboard for ESG analysis and risk assessment.\n\nLoading visualization data... please wait a moment.');
     
     // Load demo data if not already loaded
     loadDemoData();
@@ -759,6 +918,238 @@ function runChatbotDemo() {
         addChatbotMessage('Assistant', 'Data loaded! Let\'s begin the demonstration.');
         startDemoSequence();
     }, 2000);
+}
+
+// Run a sales-focused demo with industry-specific insights
+function runSalesDemo() {
+    addChatbotMessage('Assistant', '🌟 **Starting Enhanced Sales Demo** 🌟\n\nI\'ll demonstrate how our dashboard delivers business value through actionable flood risk intelligence and ESG reporting capabilities.\n\nLoading visualization data... please wait a moment.');
+    
+    // Load demo data if not already loaded
+    loadDemoData();
+    
+    // Use user interests if available, otherwise use general approach
+    const industryFocus = window.userInterests && window.userInterests.length > 0 ? 
+                         window.userInterests[0] : 'general';
+    
+    // Give data time to load before starting demo steps
+    setTimeout(() => {
+        addChatbotMessage('Assistant', `Data loaded! Let's begin a customized demonstration focused on ${industryFocus === 'general' ? 'business value' : industryFocus} applications.`);
+        startSalesDemoSequence(industryFocus);
+    }, 2000);
+}
+
+// Start the sales demo sequence with industry focus
+function startSalesDemoSequence(industryFocus) {
+    // Common introduction steps
+    const introSteps = [
+        {
+            message: '**Business Value Overview** - This dashboard integrates multiple data sources to provide actionable intelligence for risk management, ESG reporting, and strategic planning.',
+            command: null,
+            delay: 5000
+        },
+        {
+            message: 'Our clients report up to 40% improvement in risk assessment accuracy and 65% time savings in ESG reporting processes.',
+            command: null,
+            delay: 4000
+        }
+    ];
+    
+    // Industry-specific demo steps
+    let industrySteps = [];
+    
+    switch(industryFocus) {
+        case 'insurance':
+            industrySteps = [
+                {
+                    message: '**Insurance Industry Focus** - Let\'s look at how insurers use our flood risk data to improve underwriting and pricing models.',
+                    command: 'showFloodWarnings',
+                    delay: 5000
+                },
+                {
+                    message: 'These active flood warnings are updated in real-time, allowing for immediate risk assessment adjustments for affected portfolios.',
+                    command: 'showFloodPolygons',
+                    delay: 4000
+                },
+                {
+                    message: 'Let\'s examine historical flood patterns in Queensland, a high-risk region for insurers.',
+                    command: function() { 
+                        goToNamedLocation('Queensland'); 
+                        executeChatbotCommand('filterFloodEvents');
+                    },
+                    delay: 5000
+                },
+                {
+                    message: 'Insurance clients can overlay their policy data on these maps to identify concentration risks and potential claim hotspots.',
+                    command: null,
+                    delay: 4000
+                },
+                {
+                    message: 'Our time-based analysis enables modeling of event frequency changes - critical for long-term pricing strategies.',
+                    command: 'openTimeSlider',
+                    delay: 4000
+                },
+                {
+                    message: 'Watch how flood event patterns have evolved since 1980, informing catastrophe modeling adjustments.',
+                    command: 'playTimeSlider',
+                    delay: 8000
+                }
+            ];
+            break;
+            
+        case 'banking':
+        case 'finance':
+            industrySteps = [
+                {
+                    message: '**Banking & Finance Focus** - Let\'s look at how financial institutions use our platform for portfolio risk assessment and regulatory compliance.',
+                    command: 'openESGPanel',
+                    delay: 5000
+                },
+                {
+                    message: 'Our ESG reporting tools align with TCFD requirements, enabling streamlined climate risk disclosure for lending portfolios.',
+                    command: null,
+                    delay: 4000
+                },
+                {
+                    message: 'Let\'s examine flood risk in major urban centers where property values and lending exposure are highest.',
+                    command: function() { 
+                        goToNamedLocation('Sydney'); 
+                        executeChatbotCommand('showFloodPolygons');
+                    },
+                    delay: 5000
+                },
+                {
+                    message: 'Banking clients can integrate this data with loan book information to quantify physical climate risk exposure.',
+                    command: null,
+                    delay: 4000
+                },
+                {
+                    message: 'The platform generates regulatory-ready reports that satisfy stress testing requirements for climate scenarios.',
+                    command: 'openFilterPanel',
+                    delay: 4000
+                }
+            ];
+            break;
+            
+        case 'property':
+        case 'real estate':
+            industrySteps = [
+                {
+                    message: '**Property & Real Estate Focus** - Let\'s explore how property managers and investors use our platform for asset protection and valuation.',
+                    command: 'showFloodPolygons',
+                    delay: 5000
+                },
+                {
+                    message: 'These flood risk polygons provide property-level precision for risk assessment and insurance planning.',
+                    command: function() { goToNamedLocation('Brisbane'); },
+                    delay: 4000
+                },
+                {
+                    message: 'Real estate portfolios can be evaluated against both current and projected flood risk zones, informing acquisition and divestment decisions.',
+                    command: null,
+                    delay: 5000
+                },
+                {
+                    message: 'Historical rainfall patterns inform infrastructure requirements and adaptation planning for property developments.',
+                    command: 'showRainfall',
+                    delay: 4000
+                },
+                {
+                    message: 'The ESG reporting capabilities support green building certification and climate resilience documentation.',
+                    command: 'openESGPanel',
+                    delay: 4000
+                }
+            ];
+            break;
+            
+        // General business value focus for other industries
+        default:
+            industrySteps = [
+                {
+                    message: '**Business Value Focus** - Let\'s explore how organizations across sectors leverage our platform for strategic advantage.',
+                    command: 'showFloodWarnings',
+                    delay: 5000
+                },
+                {
+                    message: 'Real-time flood warnings enable proactive risk management and business continuity planning.',
+                    command: function() { goToNamedLocation('Australia'); },
+                    delay: 4000
+                },
+                {
+                    message: 'Historical event analysis informs long-term strategic planning and infrastructure investment decisions.',
+                    command: 'showHistoricalEvents',
+                    delay: 5000
+                },
+                {
+                    message: 'Time-based visualization reveals changing risk patterns that impact operational planning.',
+                    command: 'openTimeSlider',
+                    delay: 4000
+                },
+                {
+                    message: 'Watch how extreme weather patterns have evolved over decades - a crucial input for future scenario planning.',
+                    command: 'playTimeSlider',
+                    delay: 8000
+                },
+                {
+                    message: 'The ESG reporting framework translates physical risk data into standardized disclosures for stakeholders.',
+                    command: 'openESGPanel',
+                    delay: 5000
+                }
+            ];
+    }
+    
+    // Closing steps with call to action
+    const closingSteps = [
+        {
+            message: '**ROI Assessment** - Our clients typically achieve:',
+            command: 'closePanels',
+            delay: 3000
+        },
+        {
+            message: '• 30-40% reduction in climate risk assessment time\n• 65% faster ESG reporting process\n• Up to 25% improvement in risk mitigation planning',
+            command: null,
+            delay: 5000
+        },
+        {
+            message: '**Implementation** - Our platform can be deployed in as little as 2 weeks, with seamless data integration and user training included.',
+            command: null,
+            delay: 4000
+        },
+        {
+            message: 'Would you like to discuss how this platform could be customized for your specific needs? I can [action:arrange a consultation] or [action:provide pricing information].',
+            command: null,
+            delay: 0
+        }
+    ];
+    
+    // Combine all demo steps
+    const demoSteps = [...introSteps, ...industrySteps, ...closingSteps];
+    
+    // Execute the demo steps with delays
+    let currentStep = 0;
+    
+    function executeNextStep() {
+        if (currentStep >= demoSteps.length) return;
+        
+        const step = demoSteps[currentStep];
+        addChatbotMessage('Assistant', step.message);
+        
+        if (step.command) {
+            if (typeof step.command === 'function') {
+                step.command();
+            } else {
+                executeChatbotCommand(step.command);
+            }
+        }
+        
+        currentStep++;
+        
+        if (currentStep < demoSteps.length) {
+            setTimeout(executeNextStep, step.delay);
+        }
+    }
+    
+    // Start the demo sequence
+    executeNextStep();
 }
 
 // Begin demo sequence after data is loaded
