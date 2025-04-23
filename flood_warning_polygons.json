@@ -1,0 +1,138 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 1,
+        "name": "Bulloo River at Quilpie",
+        "warningId": 1,
+        "severity": "Severe",
+        "category": "flood",
+        "headline": "Major Flood Warning for Bulloo River to Quilpie and Bulloo River at Quilpie",
+        "description": "Major flooding is occurring along the Bulloo River to Quilpie.\nThe Bulloo River at Quilpie is currently at 6.43 metres and falling, above the major flood level (5.00 m). The Bulloo River at Quilpie is likely to remain above the major flood level (5.00 m) for the next few days."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [144.43, -26.62],
+            [144.35, -26.65],
+            [144.25, -26.60],
+            [144.15, -26.65],
+            [144.25, -26.75],
+            [144.45, -26.75],
+            [144.50, -26.70],
+            [144.43, -26.62]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 2,
+        "name": "Bulloo River at Thargomindah",
+        "warningId": 4,
+        "severity": "Severe",
+        "category": "flood",
+        "headline": "Major Flood Warning for Bulloo River downstream of Quilpie and Bulloo River at Thargomindah",
+        "description": "Major flooding is occurring along the Bulloo River downstream of Quilpie, including at Autumnvale.\nThe Bulloo River at Thargomindah is currently at 6.95 metres and rising, above the major flood level (5.50 m). The Bulloo River at Thargomindah is currently above the 1974 level of 6.78 metres. The river level at Thargomindah may reach around 7.20 metres overnight Monday into Tuesday. Further rises are possible as floodwaters continue to move downstream."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [143.83, -27.95],
+            [143.75, -28.05],
+            [143.78, -28.15],
+            [143.88, -28.20],
+            [143.98, -28.15],
+            [144.00, -28.05],
+            [143.95, -27.95],
+            [143.83, -27.95]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 3,
+        "name": "Thomson River at Longreach",
+        "warningId": 7,
+        "severity": "Severe",
+        "category": "flood",
+        "headline": "Major Flood Warning for Thomson River, Thomson River at Camoola Park, Thomson River at Longreach, Thomson River at Stonehenge and Thomson River at Jundah",
+        "description": "Minor to major flooding is occurring along the Thomson River.\nThe Thomson River at Longreach is currently at 3.72 metres and rising, above the minor flood level (3.30 m). The Thomson River at Longreach is expected to reach the moderate flood level (4.30 m) early Monday evening. The river level is likely to reach the major flood level (5.30 m) late Tuesday morning. Further river level rises are possible as upstream floodwaters arrive."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [144.23, -23.40],
+            [144.20, -23.45],
+            [144.25, -23.50],
+            [144.35, -23.50],
+            [144.40, -23.45],
+            [144.35, -23.40],
+            [144.23, -23.40]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 4,
+        "name": "Thomson River at Jundah",
+        "warningId": 7,
+        "severity": "Severe",
+        "category": "flood",
+        "headline": "Major Flood Warning for Thomson River, Thomson River at Camoola Park, Thomson River at Longreach, Thomson River at Stonehenge and Thomson River at Jundah",
+        "description": "The Thomson River at Jundah is currently at 7.35 metres and falling with major flooding. The Thomson River at Jundah is expected to remain above the major flood level (5.00 m) overnight Monday into Tuesday. Renewed river level rises are possible with forecast rainfall from Wednesday morning."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [142.95, -24.80],
+            [142.90, -24.85],
+            [142.95, -24.95],
+            [143.05, -24.95],
+            [143.15, -24.90],
+            [143.10, -24.80],
+            [142.95, -24.80]
+          ]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": 5,
+        "name": "Barcoo River at Retreat",
+        "warningId": 8,
+        "severity": "Severe",
+        "category": "flood",
+        "headline": "Major Flood Warning for Barcoo River downstream of Isisford and Barcoo River at Retreat",
+        "description": "Moderate to major flooding is easing along the Barcoo River downstream of Isisford at Wahroongha, Glenlock and Retreat.\nNo recent observations are available along the Barcoo River at Retreat. Based on the upstream automatic gauges, the river level is estimated to be around 10.00 metres and falling slowly with major flooding. The Barcoo River at Retreat is expected to continue falling but remain above the major flood level (8.00 m) for the next few days. Small renewed rises are possible from the weekend as upstream floodwaters arrive."
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [143.15, -25.75],
+            [143.05, -25.85],
+            [143.10, -25.95],
+            [143.20, -26.00],
+            [143.30, -25.95],
+            [143.30, -25.85],
+            [143.20, -25.75],
+            [143.15, -25.75]
+          ]
+        ]
+      }
+    }
+  ]
+}
